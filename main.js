@@ -21,9 +21,10 @@ const printStacks = () => {
 
 const checkForWin = () => {
 
-  if( (stacks.b.join(',') == '4,3,2,1') || (stacks.c.join(',') == '4,3,2,1') ) {
-      return true
+  if( (stacks.b.length == 4) || (stacks.c.length == 4) ){
+    return true
   }
+  
 }
 
 const towersOfHanoi = (startStack, endStack) => {
@@ -34,7 +35,7 @@ const towersOfHanoi = (startStack, endStack) => {
 
   // only allows 'a' 'b' 'c' entries
   if( (s != 'a' && s != 'b' && s !='c') || (e != 'a' && e !='b' && e !='c') ){
-    return console.log('not a tower! try again')
+    return console.log('Not a tower! Try again')
   }
   // applies user choice to array 'stacks'
   let starty = stacks[s];
