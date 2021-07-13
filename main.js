@@ -7,50 +7,55 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-// An object that represents the three stacks of Towers of Hanoi; 
-  // * each key is an array of Numbers: 
-    // * A is the far-left, 
-    // * B is the middle, 
-    // * C is the far-right stack
-      // * Each number represents the largest to smallest tokens: 
-        // * 4 is the largest, 
-        // * 1 is the smallest
-
 let stacks = {
   a: [4, 3, 2, 1],
   b: [],
   c: []
 };
 
-// Start here. What is this function doing?
 const printStacks = () => {
   console.log("a: " + stacks.a);
   console.log("b: " + stacks.b);
   console.log("c: " + stacks.c);
 }
 
-// Next, what do you think this function should do?
-const movePiece = () => {
-  // Your code here
-
-}
-
-// Before you move, should you check if the move it actually allowed? Should 3 be able to be stacked on 2
-const isLegal = () => {
-  // Your code here
-
-}
-
-// What is a win in Towers of Hanoi? When should this function run?
 const checkForWin = () => {
-  // Your code here
 
+  if( (stacks.b.join(',') == '4,3,2,1') || (stacks.c.join(',') == '4,3,2,1') ) {
+      return true
+  }
 }
 
-// When is this function called? What should it do with its argument?
 const towersOfHanoi = (startStack, endStack) => {
-  // Your code here
 
+  //trims stack choice entries and lowercases 
+  let s = startStack.trim().toLowerCase();
+  let e = endStack.trim().toLowerCase();
+
+  // only allows 'a' 'b' 'c' entries
+  if( (s != 'a' && s != 'b' && s !='c') || (e != 'a' && e !='b' && e !='c') ){
+    return console.log('not a tower! try again')
+  }
+  // applies user choice to array 'stacks'
+  let starty = stacks[s];
+  let endy = stacks[e];
+
+  // slices and parse ints last array object. variable becomes NaN if empty array
+  let numStart = parseInt(starty.slice(-1));
+  let numEnd = parseInt(endy.slice(-1));
+
+  // Only allows move if the starting number is smaller than ending number. Also doesn't allow if starting stack doesn't contain a number. 
+  // convenient that comparing to NaN returns false.  
+  if( (numStart > numEnd) || isNaN(numStart) ){
+    return console.log('No dice!: try again');
+  }
+
+  //pops start stack top number and pushes it to end stack 
+  else{
+    let s = starty.pop(-1);
+    let sNumber = parseInt(s);
+  return endy.push(sNumber);
+}
 }
 
 const getPrompt = () => {
@@ -58,7 +63,14 @@ const getPrompt = () => {
   rl.question('start stack: ', (startStack) => {
     rl.question('end stack: ', (endStack) => {
       towersOfHanoi(startStack, endStack);
-      getPrompt();
+      if(checkForWin()){
+        printStacks();
+        return console.log('Success!!')
+      }
+      else{
+        getPrompt();
+      }
+      
     });
   });
 }
@@ -74,14 +86,14 @@ if (typeof describe === 'function') {
     });
   });
 
-  describe('#isLegal()', () => {
+  describe('#illegal()', () => {
     it('should not allow an illegal move', () => {
       stacks = {
         a: [4, 3, 2],
         b: [1],
         c: []
       };
-      assert.equal(isLegal('a', 'b'), false);
+      assert.equal(illegal('a', 'b'), false);
     });
     it('should allow a legal move', () => {
       stacks = {
@@ -89,7 +101,7 @@ if (typeof describe === 'function') {
         b: [],
         c: []
       };
-      assert.equal(isLegal('a', 'c'), true);
+      assert.equal(illegal('a', 'c'), true);
     });
   });
   describe('#checkForWin()', () => {
