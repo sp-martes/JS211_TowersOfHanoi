@@ -26,38 +26,78 @@ const checkForWin = () => {
   }
   
 }
+const movePiece = (s,e) => {
+  let starty = stacks[s];
+  let endy = stacks[e];
+  let startyPop = parseInt(starty.pop(-1));
+  return endy.push(startyPop);
 
-const towersOfHanoi = (startStack, endStack) => {
+}
 
-  //trims stack choice entries and lowercases 
-  let s = startStack.trim().toLowerCase();
-  let e = endStack.trim().toLowerCase();
-
-  // only allows 'a' 'b' 'c' entries
+// Before you move, should you check if the move it actually allowed? Should 3 be able to be stacked on 2
+const isLegal = (s,e) => {
+  
   if( (s != 'a' && s != 'b' && s !='c') || (e != 'a' && e !='b' && e !='c') ){
-    return console.log('Not a tower! Try again')
+    console.log('Not a valid tower choice!');
+    return false
   }
-  // applies user choice to array 'stacks'
+
   let starty = stacks[s];
   let endy = stacks[e];
 
   // slices and parse ints last array object. variable becomes NaN if empty array
   let numStart = parseInt(starty.slice(-1));
   let numEnd = parseInt(endy.slice(-1));
+  
+  // Only allows move if the starting number is smaller than ending number. Also doesn't allow if starting stack doesn't contain a number. 
+  // convenient that comparing a number to NaN returns false.  
+  if( (numStart > numEnd) || isNaN(numStart) ){
+    return false
+  }
+
+}
+
+const towersOfHanoi = (startStack, endStack) => {
+
+  //trims stack choice entries and lowercases 
+  let s = startStack.trim().toLowerCase();
+  let e = endStack.trim().toLowerCase();
+  
+  if( (isLegal(s,e) == false) ) {
+    return console.log('No dice! Try again.')
+  }
+  else {
+    movePiece(s,e);
+  }
+  }
+
+
+  // only allows 'a' 'b' 'c' entries
+  // if( (s != 'a' && s != 'b' && s !='c') || (e != 'a' && e !='b' && e !='c') ){
+  //   return console.log('Not a tower! Try again')
+  // }
+  // applies user choice to array 'stacks'
+  // let starty = stacks[s];
+  // let endy = stacks[e];
+
+  // slices and parse ints last array object. variable becomes NaN if empty array
+  // let numStart = parseInt(starty.slice(-1));
+  // let numEnd = parseInt(endy.slice(-1));
 
   // Only allows move if the starting number is smaller than ending number. Also doesn't allow if starting stack doesn't contain a number. 
   // convenient that comparing to NaN returns false.  
-  if( (numStart > numEnd) || isNaN(numStart) ){
-    return console.log('No dice!: try again');
-  }
+  
+  // if( (numStart > numEnd) || isNaN(numStart) ){
+  //   return console.log('No dice!: try again');
+  // }
 
   //pops start stack top number and pushes it to end stack 
-  else{
-    let s = starty.pop(-1);
-    let sNumber = parseInt(s);
-  return endy.push(sNumber);
-}
-}
+  // else{
+  //   let s = starty.pop(-1);
+  //   let sNumber = parseInt(s);
+  // return endy.push(sNumber);
+
+
 
 const getPrompt = () => {
   printStacks();
@@ -87,14 +127,14 @@ if (typeof describe === 'function') {
     });
   });
 
-  describe('#illegal()', () => {
+  describe('#isLegal()', () => {
     it('should not allow an illegal move', () => {
       stacks = {
         a: [4, 3, 2],
         b: [1],
         c: []
       };
-      assert.equal(illegal('a', 'b'), false);
+      assert.equal(isLegal('a', 'b'), false);
     });
     it('should allow a legal move', () => {
       stacks = {
@@ -102,7 +142,7 @@ if (typeof describe === 'function') {
         b: [],
         c: []
       };
-      assert.equal(illegal('a', 'c'), true);
+      assert.equal(isLegal('a', 'c'), true);
     });
   });
   describe('#checkForWin()', () => {
