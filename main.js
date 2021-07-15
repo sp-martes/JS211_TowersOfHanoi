@@ -29,7 +29,7 @@ const checkForWin = () => {
 const movePiece = (s,e) => {
   let starty = stacks[s];
   let endy = stacks[e];
-  let startyPop = parseInt(starty.pop(-1));
+  let startyPop = starty.pop();
   return endy.push(startyPop);
 
 }
@@ -147,6 +147,8 @@ if (typeof describe === 'function') {
   });
   describe('#checkForWin()', () => {
     it('should detect a win', () => {
+      stacks = { a: [], b: [4, 3, 2, 1], c: [] };
+      assert.equal(checkForWin(), true);
       stacks = { a: [], b: [4, 3, 2, 1], c: [] };
       assert.equal(checkForWin(), true);
       stacks = { a: [1], b: [4, 3, 2], c: [] };
