@@ -20,12 +20,25 @@ const printStacks = () => {
 }
 
 const checkForWin = () => {
-
-  if( (stacks.b.length == 4) || (stacks.c.length == 4) ){
+  // compares stacks b and c to tower with every() loop
+  // Assigns the result to variables b and c
+  // b and c values are equal to true or false depending on the results of loop
+  let tower = [4,3,2,1];
+  
+  let b = tower.length == stacks.b.length && tower.every(function(element, index) {
+    return element === stacks.b[index]; 
+  });
+  let c = tower.length == stacks.c.length && tower.every(function(element, index) {
+    return element === stacks.c[index]; 
+});
+  if( b || c ){
     return true
   }
-  
+  else{
+    return false
+  }
 }
+
 const movePiece = (s,e) => {
   let starty = stacks[s];
   let endy = stacks[e];
@@ -50,9 +63,11 @@ const isLegal = (s,e) => {
   let numEnd = parseInt(endy.slice(-1));
   
   // Only allows move if the starting number is smaller than ending number. Also doesn't allow if starting stack doesn't contain a number. 
-  // convenient that comparing a number to NaN returns false.  
   if( (numStart > numEnd) || isNaN(numStart) ){
     return false
+  }
+  else{
+    return true
   }
 
 }
@@ -63,11 +78,11 @@ const towersOfHanoi = (startStack, endStack) => {
   let s = startStack.trim().toLowerCase();
   let e = endStack.trim().toLowerCase();
   
-  if( (isLegal(s,e) == false) ) {
-    return console.log('No dice! Try again.')
+  if( isLegal(s,e) ) {
+    movePiece(s,e)
   }
   else {
-    movePiece(s,e);
+    console.log('No dice! Try again.')
   }
   }
 
