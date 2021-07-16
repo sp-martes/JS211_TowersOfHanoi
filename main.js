@@ -102,16 +102,15 @@ const towersOfHanoi = (startStack, endStack) => {
   // let numEnd = parseInt(endy.slice(-1));
 
   // Only allows move if the starting number is smaller than ending number. Also doesn't allow if starting stack doesn't contain a number. 
-  // convenient that comparing to NaN returns false.  
+  // comparing to NaN returns false.  
   
   // if( (numStart > numEnd) || isNaN(numStart) ){
   //   return console.log('No dice!: try again');
   // }
 
-  //pops start stack top number and pushes it to end stack 
+  //pops start stack number and pushes it to end stack 
   // else{
-  //   let startyPop = starty.pop();
-  //   let sNumber = parseInt(s);
+  // let startyPop = starty.pop();
   // return endy.push(startyPop);
 
 
