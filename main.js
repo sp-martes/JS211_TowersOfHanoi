@@ -21,8 +21,8 @@ const printStacks = () => {
 
 const checkForWin = () => {
   // compares stacks b and c to tower with every() loop
-  // Assigns the result to variables b and c
-  // b and c values are equal to true or false depending on the results of loop
+  // Assigns the result to variables bWin and cWin
+  // bWin and cWin values are equal to true or false depending on the results of loop
   let tower = [4,3,2,1];
   
   let bWin = tower.length == stacks.b.length && tower.every(function(element, index) {
@@ -43,6 +43,7 @@ const movePiece = (s,e) => {
   let starty = stacks[s];
   let endy = stacks[e];
   let startyPop = starty.pop();
+  
   return endy.push(startyPop);
 
 }
@@ -51,7 +52,7 @@ const movePiece = (s,e) => {
 const isLegal = (s,e) => {
   
   if( (s != 'a' && s != 'b' && s !='c') || (e != 'a' && e !='b' && e !='c') ){
-    console.log('Not a valid tower choice!');
+    console.log('Not a valid tower choice.');
     return false
   }
 
@@ -61,7 +62,7 @@ const isLegal = (s,e) => {
   // slices and parse ints last array object. variable becomes NaN if empty array
   let numStart = parseInt(starty.slice(-1));
   let numEnd = parseInt(endy.slice(-1));
-  
+  console.log( numStart, numEnd)
   // Only allows move if the starting number is smaller than ending number. Also doesn't allow if starting stack doesn't contain a number. 
   if( (numStart > numEnd) || isNaN(numStart) ){
     return false
@@ -108,9 +109,9 @@ const towersOfHanoi = (startStack, endStack) => {
 
   //pops start stack top number and pushes it to end stack 
   // else{
-  //   let s = starty.pop(-1);
+  //   let startyPop = starty.pop();
   //   let sNumber = parseInt(s);
-  // return endy.push(sNumber);
+  // return endy.push(startyPop);
 
 
 
