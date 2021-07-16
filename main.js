@@ -25,13 +25,13 @@ const checkForWin = () => {
   // b and c values are equal to true or false depending on the results of loop
   let tower = [4,3,2,1];
   
-  let b = tower.length == stacks.b.length && tower.every(function(element, index) {
+  let bWin = tower.length == stacks.b.length && tower.every(function(element, index) {
     return element === stacks.b[index]; 
   });
-  let c = tower.length == stacks.c.length && tower.every(function(element, index) {
+  let cWin = tower.length == stacks.c.length && tower.every(function(element, index) {
     return element === stacks.c[index]; 
 });
-  if( b || c ){
+  if( bWin || cWin ){
     return true
   }
   else{
