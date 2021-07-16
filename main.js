@@ -48,7 +48,6 @@ const movePiece = (s,e) => {
 
 }
 
-// Before you move, should you check if the move it actually allowed? Should 3 be able to be stacked on 2
 const isLegal = (s,e) => {
   
   if( (s != 'a' && s != 'b' && s !='c') || (e != 'a' && e !='b' && e !='c') ){
@@ -64,6 +63,7 @@ const isLegal = (s,e) => {
   let numEnd = parseInt(endy.slice(-1));
   console.log( numStart, numEnd)
   // Only allows move if the starting number is smaller than ending number. Also doesn't allow if starting stack doesn't contain a number. 
+  // comparing a number to NaN returns false
   if( (numStart > numEnd) || isNaN(numStart) ){
     return false
   }
@@ -78,10 +78,11 @@ const towersOfHanoi = (startStack, endStack) => {
   //trims stack choice entries and lowercases 
   let s = startStack.trim().toLowerCase();
   let e = endStack.trim().toLowerCase();
-  
+  // moves if legal
   if( isLegal(s,e) ) {
     movePiece(s,e)
   }
+  // no dice if not
   else {
     console.log('No dice! Try again.')
   }
